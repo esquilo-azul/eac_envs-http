@@ -1,0 +1,35 @@
+require:
+  - rubocop-rails
+  - rubocop-rspec
+
+Metrics/BlockLength:
+  Exclude:
+    - '**/*.gemspec'
+    - spec/**/*_spec.rb
+
+Layout/LineLength:
+  Max: 100
+
+Rails/DynamicFindBy:
+  Enabled: false
+
+Rails/Output:
+  Enabled: false
+
+Rails/SkipsModelValidations:
+  Enabled: false
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
