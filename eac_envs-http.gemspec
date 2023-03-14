@@ -17,5 +17,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'faraday', '~> 2.7', '>= 2.7.4'
   s.add_dependency 'faraday-multipart', '~> 1.0', '>= 1.0.4'
 
+  s.add_development_dependency 'aranha-parsers', '~> 0.17'
   s.add_development_dependency 'eac_ruby_gem_support', '~> 0.5', '>= 0.5.1'
 end
