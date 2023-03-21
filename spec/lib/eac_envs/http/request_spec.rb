@@ -2,13 +2,12 @@
 
 require 'eac_envs/http/error'
 require 'eac_envs/http/request'
+require 'eac_envs/http/rspec/echo_server'
 
 ::RSpec.describe ::EacEnvs::Http::Request do
-  let(:http_server) { ::HttpEchoServer.new }
+  let(:http_server) { ::EacEnvs::Http::Rspec::EchoServer.http }
 
-  around do |example|
-    http_server.on_container(&example)
-  end
+  around { |example| http_server.on_active(&example) }
 
   before do
     allow_any_instance_of(::Faraday::Multipart::Middleware).to( # rubocop:disable RSpec/AnyInstance
@@ -22,7 +21,7 @@ require 'eac_envs/http/request'
   def source_data(source_file)
     remove_variable_values(
       ::JSON.parse(
-        ::RequestBuilder.from_file(http_server.http_root_url, source_file).result.response.body_str
+        ::RequestBuilder.from_file(http_server.root_url, source_file).result.response.body_str
       )
     )
   end
@@ -46,7 +45,8 @@ require 'eac_envs/http/request'
   end
 
   context 'with self signed https server' do
-    let(:instance) { described_class.new.url(http_server.https_root_url + '/any/path') }
+    let(:http_server) { ::EacEnvs::Http::Rspec::EchoServer.https }
+    let(:instance) { described_class.new.url(http_server.root_url + '/any/path') }
     let(:response_body) { request.response.body_str }
 
     context 'when no additional flag' do
