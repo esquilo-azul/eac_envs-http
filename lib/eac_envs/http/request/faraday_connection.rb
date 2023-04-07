@@ -11,15 +11,13 @@ module EacEnvs
         enable_method_class
         common_constructor :request
 
+        SETUPS = %i[multipart].freeze
+
         # @return [Faraday::Connection]
         def result
           ::Faraday.default_connection_options[:headers] = {}
           ::Faraday::Connection.new(connection_options) do |conn|
-            if body_with_file?
-              conn.request :multipart, flat_encode: true
-            else
-              conn.request :url_encoded
-            end
+            SETUPS.each { |setup| send("setup_#{setup}", conn) }
             request.auth
                    .if_present { |v| conn.request :authorization, :basic, v.username, v.password }
           end
@@ -38,6 +36,15 @@ module EacEnvs
             request: { params_encoder: Faraday::FlatParamsEncoder },
             ssl: { verify: request.ssl_verify? }
           }
+        end
+
+        # @param conn [Faraday::Connection]
+        def setup_multipart(conn)
+          if body_with_file?
+            conn.request :multipart, flat_encode: true
+          else
+            conn.request :url_encoded
+          end
         end
       end
     end
