@@ -5,6 +5,7 @@ require 'faraday'
 require 'faraday/follow_redirects'
 require 'faraday/gzip'
 require 'faraday/multipart'
+require 'faraday/retry'
 
 module EacEnvs
   module Http
@@ -13,7 +14,7 @@ module EacEnvs
         enable_method_class
         common_constructor :request
 
-        SETUPS = %i[multipart authorization follow_redirect gzip].freeze
+        SETUPS = %i[multipart authorization follow_redirect gzip retry].freeze
 
         # @return [Faraday::Connection]
         def result
@@ -62,6 +63,11 @@ module EacEnvs
           else
             conn.request :url_encoded
           end
+        end
+
+        # @param conn [Faraday::Connection]
+        def setup_retry(conn)
+          conn.request :retry if request.retry?
         end
       end
     end
