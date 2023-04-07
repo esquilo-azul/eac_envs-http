@@ -2,8 +2,6 @@
 
 require 'eac_envs/http/response'
 require 'eac_ruby_utils/core_ext'
-require 'faraday'
-require 'faraday/multipart'
 
 module EacEnvs
   module Http
@@ -25,24 +23,9 @@ module EacEnvs
         auth(::Struct.new(:username, :password).new(username, password))
       end
 
-      # @return [Faraday::Connection]
-      def faraday_connection
-        ::Faraday.default_connection_options[:headers] = {}
-        ::Faraday::Connection.new(faraday_connection_options) do |conn|
-          if body_with_file?
-            conn.request :multipart, flat_encode: true
-          else
-            conn.request :url_encoded
-          end
-          auth.if_present { |v| conn.request :authorization, :basic, v.username, v.password }
-        end
-      end
-
-      # @return [Hash]
-      def faraday_connection_options
-        {
-          request: { params_encoder: Faraday::FlatParamsEncoder }, ssl: { verify: ssl_verify? }
-        }
+      # @return [EacEnvs::Http::Request::BodyFields]
+      def body_fields
+        @body_fields ||= ::EacEnvs::Http::Request::BodyFields.new(body_data)
       end
 
       # @return [Faraday::Response]
@@ -65,20 +48,11 @@ module EacEnvs
 
       private
 
-      def body_fields
-        @body_fields ||= ::EacEnvs::Http::Request::BodyFields.new(body_data)
-      end
-
-      # @return [Boolean]
-      def body_with_file?
-        body_fields.with_file?
-      end
-
       def sanitized_body_data
         body_fields.to_h || body_data
       end
 
-      require_sub __FILE__
+      require_sub __FILE__, require_dependency: true
     end
   end
 end
