@@ -11,15 +11,13 @@ module EacEnvs
         enable_method_class
         common_constructor :request
 
-        SETUPS = %i[multipart].freeze
+        SETUPS = %i[multipart authorization].freeze
 
         # @return [Faraday::Connection]
         def result
           ::Faraday.default_connection_options[:headers] = {}
           ::Faraday::Connection.new(connection_options) do |conn|
             SETUPS.each { |setup| send("setup_#{setup}", conn) }
-            request.auth
-                   .if_present { |v| conn.request :authorization, :basic, v.username, v.password }
           end
         end
 
@@ -36,6 +34,13 @@ module EacEnvs
             request: { params_encoder: Faraday::FlatParamsEncoder },
             ssl: { verify: request.ssl_verify? }
           }
+        end
+
+        # @param conn [Faraday::Connection]
+        def setup_authorization(conn)
+          request.auth.if_present do |v|
+            conn.request :authorization, :basic, v.username, v.password
+          end
         end
 
         # @param conn [Faraday::Connection]
