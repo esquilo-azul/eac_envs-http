@@ -2,6 +2,7 @@
 
 require 'eac_ruby_utils/core_ext'
 require 'faraday'
+require 'faraday/follow_redirects'
 require 'faraday/multipart'
 
 module EacEnvs
@@ -11,7 +12,7 @@ module EacEnvs
         enable_method_class
         common_constructor :request
 
-        SETUPS = %i[multipart authorization].freeze
+        SETUPS = %i[multipart authorization follow_redirect].freeze
 
         # @return [Faraday::Connection]
         def result
@@ -41,6 +42,11 @@ module EacEnvs
           request.auth.if_present do |v|
             conn.request :authorization, :basic, v.username, v.password
           end
+        end
+
+        # @param conn [Faraday::Connection]
+        def setup_follow_redirect(conn)
+          conn.response :follow_redirects if request.follow_redirect?
         end
 
         # @param conn [Faraday::Connection]
