@@ -55,10 +55,9 @@ module EacEnvs
         hash_search(headers, name)
       end
 
+      # @return [Hash<String, String>]
       def headers
-        performed.header_str.each_line.map(&:strip)[1..-1].reject(&:blank?)
-                 .map { |header_line| HEADER_LINE_PARSER.parse!(header_line) }
-                 .to_h
+        performed.headers.to_hash
       end
 
       def link(rel)
