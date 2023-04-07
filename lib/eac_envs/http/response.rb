@@ -9,6 +9,7 @@ require 'json'
 module EacEnvs
   module Http
     class Response < ::StandardError
+      COMMON_HEADERS = %w[Content-Type].freeze
       HEADER_LINE_PARSER = /\A([^:]+):(.*)\z/.to_parser do |m|
         [m[1].strip, m[2].strip]
       end
@@ -84,6 +85,12 @@ module EacEnvs
 
       def to_s
         "URL: #{url}\nStatus: #{status}\nBody:\n\n#{body_str}"
+      end
+
+      COMMON_HEADERS.each do |header_key|
+        define_method header_key.underscore do
+          header(header_key)
+        end
       end
 
       private
