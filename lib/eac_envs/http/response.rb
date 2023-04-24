@@ -23,14 +23,14 @@ module EacEnvs
       end
 
       common_constructor :request
-      delegate :body_data_proc, to: :request
+      delegate :response_body_data_proc, to: :request
 
       def body_data
         r = performed.headers['Accept'].if_present(body_str) do |v|
           method_name = "body_data_from_#{v.parameterize.underscore}"
           respond_to?(method_name) ? send(method_name) : body_str
         end
-        r = body_data_proc.call(r) if body_data_proc.present?
+        r = response_body_data_proc.call(r) if response_body_data_proc.present?
         r
       end
 
