@@ -10,9 +10,8 @@ module EacEnvs
         delegate :response_body_data_proc, to: :request
 
         def body_data
-          r = performed.headers['Accept'].if_present(body_str) do |v|
-            method_name = "body_data_from_#{v.parameterize.underscore}"
-            respond_to?(method_name) ? send(method_name) : body_str
+          r = body_data_method_name.if_present(body_str) do |v|
+            respond_to?(v) ? send(v) : body_str
           end
           r = response_body_data_proc.call(r) if response_body_data_proc.present?
           r
@@ -43,6 +42,13 @@ module EacEnvs
 
         def body_data_from_application_xml
           Hash.from_xml(body_str)
+        end
+
+        # @return [String]
+        def body_data_method_name
+          performed.headers['Accept'].if_present do |v|
+            "body_data_from_#{v.parameterize.underscore}"
+          end
         end
       end
     end
