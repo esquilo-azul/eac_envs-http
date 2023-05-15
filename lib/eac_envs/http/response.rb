@@ -10,17 +10,6 @@ module EacEnvs
   module Http
     class Response < ::StandardError
       common_constructor :request
-
-      def raise_unless_200
-        return nil if status == 200
-
-        raise self
-      end
-
-      def status
-        performed.status.to_i
-      end
-
       delegate :url, to: :request
 
       def to_s
