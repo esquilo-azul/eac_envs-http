@@ -9,25 +9,7 @@ require 'json'
 module EacEnvs
   module Http
     class Response < ::StandardError
-      # https://www.w3.org/wiki/LinkHeader
-      LINKS_HEADER_NAME = 'Link'
-
-      # https://www.w3.org/wiki/LinkHeader
-      LINK_PARSER = /\A\<(.+)\>\s*;\s*rel\s*=\s*\"(.*)\"\z/.to_parser do |m|
-        [m[2], m[1]]
-      end
-
       common_constructor :request
-
-      def link(rel)
-        hash_search(links, rel)
-      end
-
-      def links
-        header(LINKS_HEADER_NAME).if_present({}) do |v|
-          v.split(',').map { |w| LINK_PARSER.parse!(w.strip) }.to_h
-        end
-      end
 
       def raise_unless_200
         return nil if status == 200
