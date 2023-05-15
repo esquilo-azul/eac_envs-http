@@ -11,7 +11,7 @@ module EacEnvs
 
         def body_data
           r = body_data_method_name.if_present(body_str) do |v|
-            respond_to?(v) ? send(v) : body_str
+            respond_to?(v, true) ? send(v) : body_str
           end
           r = response_body_data_proc.call(r) if response_body_data_proc.present?
           r
