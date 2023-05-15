@@ -23,33 +23,6 @@ module EacEnvs
       end
 
       common_constructor :request
-      delegate :response_body_data_proc, to: :request
-
-      def body_data
-        r = performed.headers['Accept'].if_present(body_str) do |v|
-          method_name = "body_data_from_#{v.parameterize.underscore}"
-          respond_to?(method_name) ? send(method_name) : body_str
-        end
-        r = response_body_data_proc.call(r) if response_body_data_proc.present?
-        r
-      end
-
-      def body_data_or_raise
-        raise_unless_200
-
-        body_data
-      end
-
-      # @return [String]
-      def body_str
-        performed.body
-      end
-
-      def body_str_or_raise
-        raise_unless_200
-
-        body_str
-      end
 
       def header(name)
         hash_search(headers, name)
@@ -94,14 +67,6 @@ module EacEnvs
 
       private
 
-      def body_data_from_application_json
-        ::JSON.parse(body_str)
-      end
-
-      def body_data_from_application_xml
-        Hash.from_xml(body_str)
-      end
-
       def hash_search(hash, key)
         key = key.to_s.downcase
         hash.each do |k, v|
@@ -115,6 +80,8 @@ module EacEnvs
       rescue ::Faraday::Error
         raise ::EacEnvs::Http::Error
       end
+
+      require_sub __FILE__, include_modules: true
     end
   end
 end
