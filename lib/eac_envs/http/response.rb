@@ -9,11 +9,6 @@ require 'json'
 module EacEnvs
   module Http
     class Response < ::StandardError
-      COMMON_HEADERS = %w[Content-Type].freeze
-      HEADER_LINE_PARSER = /\A([^:]+):(.*)\z/.to_parser do |m|
-        [m[1].strip, m[2].strip]
-      end
-
       # https://www.w3.org/wiki/LinkHeader
       LINKS_HEADER_NAME = 'Link'
 
@@ -23,15 +18,6 @@ module EacEnvs
       end
 
       common_constructor :request
-
-      def header(name)
-        hash_search(headers, name)
-      end
-
-      # @return [Hash<String, String>]
-      def headers
-        performed.headers.to_hash
-      end
 
       def link(rel)
         hash_search(links, rel)
@@ -59,21 +45,7 @@ module EacEnvs
         "URL: #{url}\nStatus: #{status}\nBody:\n\n#{body_str}"
       end
 
-      COMMON_HEADERS.each do |header_key|
-        define_method header_key.underscore do
-          header(header_key)
-        end
-      end
-
       private
-
-      def hash_search(hash, key)
-        key = key.to_s.downcase
-        hash.each do |k, v|
-          return v if k.to_s.downcase == key
-        end
-        nil
-      end
 
       def performed
         @performed ||= request.faraday_response
