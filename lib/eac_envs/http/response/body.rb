@@ -46,8 +46,9 @@ module EacEnvs
 
         # @return [String]
         def body_data_method_name
-          performed.headers['Accept'].if_present do |v|
-            "body_data_from_#{v.parameterize.underscore}"
+          content_type.if_present do |v|
+            'body_data_from_' +
+              v.split(';').first.force_encoding(::Encoding::UTF_8).variableize
           end
         end
       end
