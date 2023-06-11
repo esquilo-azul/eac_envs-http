@@ -34,6 +34,11 @@ module EacEnvs
           body_str
         end
 
+        # @param path [Pathname]
+        def write_body(path)
+          ::File.open(path, 'wb') { |fp| fp.write(performed.body) }
+        end
+
         private
 
         def body_data_from_application_json
