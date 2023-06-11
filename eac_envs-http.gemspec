@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'eac_fs', '~> 0.16'
   s.add_dependency 'eac_ruby_utils', '~> 0.117', '>= 0.117.1'
-  s.add_dependency 'faraday', '~> 2.7', '>= 2.7.4'
+  s.add_dependency 'faraday', '~> 2.7', '>= 2.7.6'
   s.add_dependency 'faraday-follow_redirects', '~> 0.3'
   s.add_dependency 'faraday-gzip', '~> 0.1'
   s.add_dependency 'faraday-multipart', '~> 1.0', '>= 1.0.4'
