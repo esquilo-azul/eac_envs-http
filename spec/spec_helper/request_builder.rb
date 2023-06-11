@@ -26,6 +26,7 @@ class RequestBuilder
     r = %i[verb headers].inject(new_request) do |a, e|
       data[e].if_present(a) { |v| a.send(e, v) }
     end
+    r = r.header('user-agent', 'EacEnvs::Http')
     result_body_data(result_auth(r))
   end
 
