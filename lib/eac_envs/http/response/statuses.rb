@@ -7,7 +7,7 @@ module EacEnvs
     class Response < ::StandardError
       module Statuses
         def raise_unless_200
-          return nil if status == 200
+          return nil if status >= 200 && status < 300
 
           raise self
         end
