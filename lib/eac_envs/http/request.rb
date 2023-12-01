@@ -30,6 +30,7 @@ module EacEnvs
 
       # @return [Faraday::Response]
       def faraday_response
+        validate_url
         conn = faraday_connection
         conn.send(sanitized_verb, url) do |req|
           req.headers = conn.headers.merge(headers)
@@ -50,6 +51,15 @@ module EacEnvs
 
       def sanitized_body_data
         body_fields.to_h || body_data
+      end
+
+      # @return [void]
+      def validate_url
+        raise 'URL is blank' if url.blank?
+
+        %w[scheme host].each do |attr|
+          raise "URL #{attr} is blank (URL: \"#{url}\")" if url.send(attr).blank?
+        end
       end
 
       require_sub __FILE__, require_dependency: true
