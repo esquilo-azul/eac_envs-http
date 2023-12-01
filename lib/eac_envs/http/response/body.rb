@@ -17,10 +17,19 @@ module EacEnvs
           r
         end
 
-        def body_data_or_raise
+        # @return [Object]
+        # @raise [EacEnvs::Http::Response]
+        def body_data!
           raise_unless_200
 
           body_data
+        end
+
+        # @deprecated Use {#body_data!} instead.
+        # @return [Object]
+        # @raise [EacEnvs::Http::Response]
+        def body_data_or_raise
+          body_data!
         end
 
         # @return [String]
