@@ -6,7 +6,7 @@ module EacEnvs
   module Http
     class Response < ::StandardError
       module Statuses
-        def raise_unless_200
+        def raise_unless_200 # rubocop:disable Naming/VariableNumber
           return nil if status >= 200 && status < 300
 
           raise self
