@@ -28,7 +28,7 @@ module EacEnvs
         common_constructor :key, :values do
           self.key = key.to_s
           self.values = (values.is_a?(::Array) ? values.to_a : [values])
-                        .map { |v| ::EacEnvs::Http::Request::BodyFieldValue.new(v) }
+                          .map { |v| ::EacEnvs::Http::Request::BodyFieldValue.new(v) }
         end
 
         # @return [String]

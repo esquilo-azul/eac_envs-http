@@ -1,9 +1,6 @@
 ---
 inherit_gem:
   eac_ruby_gem_support: ".rubocop.yml"
-Layout/MultilineMethodCallIndentation:
-  Exclude:
-  - lib/eac_envs/http/request/body_field.rb
 Naming/VariableNumber:
   Exclude:
   - lib/eac_envs/http/response/statuses.rb
