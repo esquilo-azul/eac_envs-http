@@ -1,35 +1,36 @@
-require:
-  - rubocop-rails
-  - rubocop-rspec
-
-Metrics/BlockLength:
+---
+inherit_gem:
+  eac_ruby_gem_support: ".rubocop.yml"
+Gemspec/RequiredRubyVersion:
   Exclude:
-    - '**/*.gemspec'
-    - spec/**/*_spec.rb
-
-Layout/LineLength:
-  Max: 100
-
-Rails/DynamicFindBy:
-  Enabled: false
-
-Rails/Output:
-  Enabled: false
-
-Rails/SkipsModelValidations:
-  Enabled: false
-
-Style/AsciiComments:
-  Enabled: false
-
-Style/Documentation:
-  Enabled: false
-
-Style/HashEachMethods:
-  Enabled: true
-
-Style/HashTransformKeys:
-  Enabled: true
-
+  - eac_envs-http.gemspec
+Layout/MultilineMethodCallIndentation:
+  Exclude:
+  - lib/eac_envs/http/request/body_field.rb
+Naming/VariableNumber:
+  Exclude:
+  - lib/eac_envs/http/response/statuses.rb
+Style/FileWrite:
+  Exclude:
+  - lib/eac_envs/http/response/body.rb
 Style/HashTransformValues:
-  Enabled: true
+  Exclude:
+  - lib/eac_envs/http/rspec/echo_server/request_processor.rb
+Style/MapToHash:
+  Exclude:
+  - lib/eac_envs/http/response/links.rb
+  - lib/eac_envs/http/rspec/echo_server/request_processor.rb
+Style/RedundantConstantBase:
+  Exclude:
+  - Gemfile
+  - spec/lib/eac_envs/http/request/body_fields_spec.rb
+  - spec/lib/eac_envs/http/request_spec.rb
+  - spec/rubocop_spec.rb
+  - spec/spec_helper.rb
+Style/RedundantRegexpEscape:
+  Exclude:
+  - lib/eac_envs/http/response/links.rb
+Style/StringConcatenation:
+  Exclude:
+  - lib/eac_envs/http/response/body.rb
+  - spec/lib/eac_envs/http/request_spec.rb
