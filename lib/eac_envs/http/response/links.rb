@@ -9,7 +9,7 @@ module EacEnvs
         LINKS_HEADER_NAME = 'Link'
 
         # https://www.w3.org/wiki/LinkHeader
-        LINK_PARSER = /\A\<(.+)\>\s*;\s*rel\s*=\s*\"(.*)\"\z/.to_parser do |m|
+        LINK_PARSER = /\A<(.+)>\s*;\s*rel\s*=\s*"(.*)"\z/.to_parser do |m|
           [m[2], m[1]]
         end
 

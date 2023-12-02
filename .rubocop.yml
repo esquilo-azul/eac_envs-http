@@ -1,9 +1,6 @@
 ---
 inherit_gem:
   eac_ruby_gem_support: ".rubocop.yml"
-Style/RedundantRegexpEscape:
-  Exclude:
-  - lib/eac_envs/http/response/links.rb
 Style/StringConcatenation:
   Exclude:
   - lib/eac_envs/http/response/body.rb
