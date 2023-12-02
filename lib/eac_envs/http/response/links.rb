@@ -19,7 +19,7 @@ module EacEnvs
 
         def links
           header(LINKS_HEADER_NAME).if_present({}) do |v|
-            v.split(',').map { |w| LINK_PARSER.parse!(w.strip) }.to_h
+            v.split(',').to_h { |w| LINK_PARSER.parse!(w.strip) }
           end
         end
       end
