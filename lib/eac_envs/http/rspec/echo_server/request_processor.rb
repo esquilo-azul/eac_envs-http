@@ -25,11 +25,11 @@ module EacEnvs
           end
 
           def request_data
-            REQUEST_TO_DATA.map { |k, v| [k, request.send(v)] }.to_h.merge(headers: request_headers)
+            REQUEST_TO_DATA.transform_values { |v| request.send(v) }.merge(headers: request_headers)
           end
 
           def request_headers
-            request.header.map { |k, v| [k, v.first] }.to_h
+            request.header.transform_values(&:first)
           end
 
           def response_body
