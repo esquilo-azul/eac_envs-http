@@ -1,9 +1,6 @@
 ---
 inherit_gem:
   eac_ruby_gem_support: ".rubocop.yml"
-Style/FileWrite:
-  Exclude:
-  - lib/eac_envs/http/response/body.rb
 Style/HashTransformValues:
   Exclude:
   - lib/eac_envs/http/rspec/echo_server/request_processor.rb

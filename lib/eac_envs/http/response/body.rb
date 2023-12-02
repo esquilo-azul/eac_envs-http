@@ -36,7 +36,7 @@ module EacEnvs
 
         # @param path [Pathname]
         def write_body(path)
-          ::File.open(path, 'wb') { |fp| fp.write(performed.body) }
+          ::File.binwrite(path, performed.body)
         end
 
         private
