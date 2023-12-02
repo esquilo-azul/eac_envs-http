@@ -2,7 +2,7 @@
 
 require 'eac_envs/http/request/body_fields'
 
-::RSpec.describe ::EacEnvs::Http::Request::BodyFields do
+RSpec.describe EacEnvs::Http::Request::BodyFields do
   describe '#to_h' do
     [
       [
@@ -29,13 +29,13 @@ require 'eac_envs/http/request/body_fields'
 
     context 'when source_body has a file' do
       let(:file) do
-        temp = ::EacRubyUtils::Fs::Temp.file
+        temp = EacRubyUtils::Fs::Temp.file
         temp.write('TEMPORARY')
-        ::File.new(temp.to_path)
+        File.new(temp.to_path)
       end
       let(:source_body) { { file1: file } }
       let(:instance) { described_class.new(source_body) }
-      let(:expected_file) { ::Faraday::Multipart::FilePart.new(file.path, 'text/plain') }
+      let(:expected_file) { Faraday::Multipart::FilePart.new(file.path, 'text/plain') }
 
       %w[class original_filename local_path content_type].each do |attr|
         it do

@@ -4,13 +4,13 @@ require 'eac_envs/http/error'
 require 'eac_envs/http/request'
 require 'eac_envs/http/rspec/echo_server'
 
-::RSpec.describe ::EacEnvs::Http::Request do
-  let(:http_server) { ::EacEnvs::Http::Rspec::EchoServer.http }
+RSpec.describe EacEnvs::Http::Request do
+  let(:http_server) { EacEnvs::Http::Rspec::EchoServer.http }
 
   around { |example| http_server.on_active(&example) }
 
   before do
-    allow_any_instance_of(::Faraday::Multipart::Middleware).to( # rubocop:disable RSpec/AnyInstance
+    allow_any_instance_of(Faraday::Multipart::Middleware).to( # rubocop:disable RSpec/AnyInstance
       receive(:unique_boundary)
       .and_return('-----------RubyMultipartPost-0123456789abcdef0123456789abcdef')
     )
@@ -20,16 +20,16 @@ require 'eac_envs/http/rspec/echo_server'
 
   def source_data(source_file)
     remove_variable_values(
-      ::JSON.parse(
-        ::RequestBuilder.from_file(http_server.root_url, source_file).result.response.body_str
+      JSON.parse(
+        RequestBuilder.from_file(http_server.root_url, source_file).result.response.body_str
       )
     )
   end
 
   def remove_variable_values(obj)
-    if obj.is_a?(::Hash)
+    if obj.is_a?(Hash)
       remove_variable_values_from_hash(obj)
-    elsif obj.is_a?(::Enumerable)
+    elsif obj.is_a?(Enumerable)
       remove_variable_values_from_enumerable(obj)
     end
     obj
@@ -45,7 +45,7 @@ require 'eac_envs/http/rspec/echo_server'
   end
 
   context 'with self signed https server' do
-    let(:http_server) { ::EacEnvs::Http::Rspec::EchoServer.https }
+    let(:http_server) { EacEnvs::Http::Rspec::EchoServer.https }
     let(:instance) { described_class.new.url(http_server.root_url + '/any/path') }
     let(:response_body) { request.response.body_str }
 
@@ -53,7 +53,7 @@ require 'eac_envs/http/rspec/echo_server'
       let(:request) { instance }
 
       it do
-        expect { response_body }.to(raise_error(::EacEnvs::Http::Error))
+        expect { response_body }.to(raise_error(EacEnvs::Http::Error))
       end
     end
 
