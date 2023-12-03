@@ -46,7 +46,7 @@ RSpec.describe EacEnvs::Http::Request do
 
   context 'with self signed https server' do
     let(:http_server) { EacEnvs::Http::Rspec::EchoServer.https }
-    let(:instance) { described_class.new.url(http_server.root_url + '/any/path') }
+    let(:instance) { described_class.new.url(http_server.root_url.join('/any/path')) }
     let(:response_body) { request.response.body_str }
 
     context 'when no additional flag' do

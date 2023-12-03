@@ -52,8 +52,7 @@ module EacEnvs
         # @return [String]
         def body_data_method_name
           content_type.if_present do |v|
-            'body_data_from_' +
-              v.split(';').first.force_encoding(::Encoding::UTF_8).variableize
+            "body_data_from_#{v.split(';').first.force_encoding(::Encoding::UTF_8).variableize}"
           end
         end
       end
