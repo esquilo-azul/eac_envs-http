@@ -58,7 +58,7 @@ module EacEnvs
         raise 'URL is blank' if url.blank?
 
         %w[scheme host].each do |attr|
-          raise "URL #{attr} is blank (URL: \"#{url}\")" if url.send(attr).blank?
+          raise "URL #{attr} is blank (URL: \"#{url}\")" if url.to_uri.send(attr).blank?
         end
       end
 
