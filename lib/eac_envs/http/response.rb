@@ -20,8 +20,8 @@ module EacEnvs
 
       def performed
         @performed ||= request.faraday_response
-      rescue ::Faraday::Error
-        raise ::EacEnvs::Http::Error
+      rescue ::Faraday::Error => e
+        raise ::EacEnvs::Http::Error, e.message
       end
 
       require_sub __FILE__, include_modules: true
