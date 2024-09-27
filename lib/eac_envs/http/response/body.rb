@@ -37,10 +37,19 @@ module EacEnvs
           performed.body
         end
 
-        def body_str_or_raise
+        # @return [String]
+        # @raise [EacEnvs::Http::Response]
+        def body_str!
           raise_unless_200
 
           body_str
+        end
+
+        # @deprecated Use {#body_str!} instead.
+        # @return [Object]
+        # @raise [EacEnvs::Http::Response]
+        def body_str_or_raise
+          body_str!
         end
 
         # @param path [Pathname]
