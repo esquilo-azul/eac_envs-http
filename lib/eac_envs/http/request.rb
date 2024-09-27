@@ -7,7 +7,7 @@ module EacEnvs
   module Http
     class Request
       BOOLEAN_MODIFIERS = %w[follow_redirect retry ssl_verify].freeze
-      COMMON_MODIFIERS = %w[auth body_data response_body_data_proc url verb].freeze
+      COMMON_MODIFIERS = %w[auth body_data response_body_data_proc url timeout verb].freeze
       HASH_MODIFIERS = %w[header].freeze
       MODIFIERS = COMMON_MODIFIERS + BOOLEAN_MODIFIERS + HASH_MODIFIERS.map(&:pluralize)
 

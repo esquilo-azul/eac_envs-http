@@ -14,6 +14,7 @@ module EacEnvs
         enable_method_class
         common_constructor :request
 
+        DEFAULT_TIMEOUT = 15.seconds
         SETUPS = %i[multipart authorization follow_redirect gzip retry].freeze
 
         # @return [Faraday::Connection]
@@ -41,7 +42,7 @@ module EacEnvs
 
         # @return [Hash]
         def request_connection_options
-          { params_encoder: Faraday::FlatParamsEncoder }
+          { params_encoder: Faraday::FlatParamsEncoder, timeout: timeout }
         end
 
         # @param conn [Faraday::Connection]
@@ -73,6 +74,11 @@ module EacEnvs
         # @param conn [Faraday::Connection]
         def setup_retry(conn)
           conn.request :retry if request.retry?
+        end
+
+        # @return [Integer]
+        def timeout
+          request.timeout.if_present(DEFAULT_TIMEOUT).to_i
         end
       end
     end
