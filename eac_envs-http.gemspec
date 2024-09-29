@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'faraday-follow_redirects', '~> 0.3'
   s.add_dependency 'faraday-gzip', '~> 0.1'
   s.add_dependency 'faraday-multipart', '~> 1.0', '>= 1.0.4'
-  s.add_dependency 'faraday-retry', '~> 2.2'
+  s.add_dependency 'faraday-retry', '~> 2.2', '>= 2.2.1'
 
   s.add_development_dependency 'eac_ruby_gem_support', '~> 0.10'
 end
