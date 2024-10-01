@@ -34,9 +34,14 @@ module EacEnvs
         # @return [Hash]
         def connection_options
           {
-            request: { params_encoder: Faraday::FlatParamsEncoder },
+            request: request_connection_options,
             ssl: { verify: request.ssl_verify? }
           }
+        end
+
+        # @return [Hash]
+        def request_connection_options
+          { params_encoder: Faraday::FlatParamsEncoder }
         end
 
         # @param conn [Faraday::Connection]
