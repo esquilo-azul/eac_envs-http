@@ -49,11 +49,9 @@ module EacEnvs
 
         protected
 
-        # @return [EacEnvs::Http::Rspec::EchoServer::WebrickServlet]
+        # @return [EacEnvs::Http::Rspec::EchoServer::HttpServer]
         def http_server
-          r = ::WEBrick::HTTPServer.new(webrick_options)
-          r.mount '/', ::EacEnvs::Http::Rspec::EchoServer::WebrickServlet
-          r
+          ::EacEnvs::Http::Rspec::EchoServer::HttpServer.new(webrick_options)
         end
 
         require_sub __FILE__
