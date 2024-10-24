@@ -27,7 +27,7 @@ module EacEnvs
         common_constructor :scheme, :webrick_options
 
         def on_active(&block)
-          servlet = webrick_servlet
+          servlet = http_server
           ::Thread.abort_on_exception = true
           servlet_thread = ::Thread.new { servlet.start }
           begin
@@ -50,7 +50,7 @@ module EacEnvs
         private
 
         # @return [EacEnvs::Http::Rspec::EchoServer::WebrickServlet]
-        def webrick_servlet
+        def http_server
           r = ::WEBrick::HTTPServer.new(webrick_options)
           r.mount '/', ::EacEnvs::Http::Rspec::EchoServer::WebrickServlet
           r
