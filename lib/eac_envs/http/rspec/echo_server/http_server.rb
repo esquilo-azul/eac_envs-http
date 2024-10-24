@@ -14,6 +14,18 @@ module EacEnvs
             super
             mount '/', ::EacEnvs::Http::Rspec::EchoServer::WebrickServlet
           end
+
+          def on_running(&block)
+            ::Thread.abort_on_exception = true
+            servlet_thread = ::Thread.new { start }
+            begin
+              sleep 0.001 while status != :Running
+              block.call
+            ensure
+              shutdown
+              servlet_thread.join
+            end
+          end
         end
       end
     end

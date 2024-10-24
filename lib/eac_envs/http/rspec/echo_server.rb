@@ -27,16 +27,7 @@ module EacEnvs
         common_constructor :scheme, :webrick_options
 
         def on_active(&block)
-          servlet = http_server
-          ::Thread.abort_on_exception = true
-          servlet_thread = ::Thread.new { servlet.start }
-          begin
-            sleep 0.001 while servlet.status != :Running
-            block.call
-          ensure
-            servlet.shutdown
-            servlet_thread.join
-          end
+          http_server.on_running(&block)
         end
 
         def root_url
