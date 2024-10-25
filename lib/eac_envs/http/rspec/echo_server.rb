@@ -47,7 +47,7 @@ module EacEnvs
           )
         end
 
-        private
+        protected
 
         # @return [EacEnvs::Http::Rspec::EchoServer::WebrickServlet]
         def http_server
